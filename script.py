@@ -19,17 +19,13 @@ def download_audio(url, output_folder="downloads"):
                 'preferredquality': '192',
             }],
             'noplaylist': True,  # Prevents downloading full playlists  # Use cookies to bypass restrictions
+            'ffmpeg_location': r"ffmpeg\ffmpeg-2025-02-20-git-bc1a3bfd2c-full_build\ffmpeg-2025-02-20-git-bc1a3bfd2c-full_build\bin"
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
 
-        print("Download complete.")
+        return True, "Download complete!"
 
     except Exception as e:
-        print(f"Error {e}")
-
-
-if __name__ == "__main__":
-    url = input("Enter YouTube video URL: ")
-    download_audio(url)
+        return False, str(e)
