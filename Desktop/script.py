@@ -19,7 +19,7 @@ def download_audio(url, output_folder="downloads"):
                 'preferredquality': '192',
             }],
             'noplaylist': True,  # Prevents downloading full playlists  # Use cookies to bypass restrictions
-            'ffmpeg_location': r"ffmpeg\ffmpeg-2025-02-20-git-bc1a3bfd2c-full_build\ffmpeg-2025-02-20-git-bc1a3bfd2c-full_build\bin"
+            'ffmpeg_location': r"..\ffmpeg\ffmpeg-2025-02-20-git-bc1a3bfd2c-full_build\ffmpeg-2025-02-20-git-bc1a3bfd2c-full_build\bin"
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
