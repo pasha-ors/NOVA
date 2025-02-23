@@ -5,7 +5,7 @@ import Home from "./pages/Home/Home.jsx";
 import About from "./pages/About/About.jsx";
 import API from "./pages/API.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import NOVA from "./pages/NOVA.jsx";
+import NOVA from "./pages/NOVA/NOVA.jsx";
 
 import "./App.css"
 

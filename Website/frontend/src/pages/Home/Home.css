@@ -11,19 +11,18 @@
 .big-title {
 
     margin-top: 200px;
-    font-size: 400px;
+    font-size: 360px;
     font-weight: bold;
     letter-spacing: -5px;
     color: transparent;
-    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.7);
-    text-shadow: 0 0 35px #100318, 0 0 40px rgb(255, 255, 255, 0.4);
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 10px black, 0 0 10px rgb(255, 255, 255, 0.7);
     cursor: default;
     transition: 1s ease-in-out;
 }
 
 .big-title:hover {
-    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.8);
-    text-shadow: 0 0 25px #100318, 0 0 50px rgb(255, 255, 255, 0.4);
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 1);
 }
 
 .content {

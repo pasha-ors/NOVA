@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 import os
 
-from Backend.Script.script import download_audio
+from Script.script import download_audio
 
 api_bp = Blueprint('api', __name__)
 

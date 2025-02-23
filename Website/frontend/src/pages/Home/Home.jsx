@@ -8,8 +8,8 @@ const Home = () => {
             <div className="content">
                 <p>Announcing NOVA</p>
                 <div className="buttons">
-                    <a href="#" className="btn">Learn more</a>
-                    <a href="#" className="btn try">Try now ↗</a>
+                    <a href="/about" className="btn">Learn more</a>
+                    <a href="/nova" className="btn try">Try now ↗</a>
                 </div>
             </div>
         </div>
