@@ -1,7 +1,10 @@
-from script import download_audio
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QFileDialog, QMessageBox
+
 from PyQt6.QtCore import QThread, pyqtSignal
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QFileDialog, QMessageBox
+
+from Backend.Script.script import download_audio
+
 
 class DownloadThread(QThread):
     finished = pyqtSignal(bool, str)
