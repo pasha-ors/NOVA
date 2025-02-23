@@ -2,7 +2,7 @@ import React from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Home from "./pages/Home/Home.jsx";
-import About from "./pages/About.jsx";
+import About from "./pages/About/About.jsx";
 import API from "./pages/API.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import NOVA from "./pages/NOVA.jsx";
