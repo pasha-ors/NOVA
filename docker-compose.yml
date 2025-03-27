@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  music_downloader:
+    build:
+      context: ./services/music_downloader
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./services/music_downloader/downloads:/app/downloads
+    environment:
+      - PYTHONUNBUFFERED=1

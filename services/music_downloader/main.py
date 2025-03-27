@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify, send_from_directory
-from script.script import download_audio
 from flask_cors import CORS
 import os
+
+from script.script import download_audio
+
 app = Flask(__name__)
 CORS(app)
 
