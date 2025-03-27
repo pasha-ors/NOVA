@@ -1,0 +1,6 @@
+ffmpeg/
+downloads/
+*.mp4
+*.mkv
+*.avi
+*.mov
