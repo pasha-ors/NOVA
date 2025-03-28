@@ -25,7 +25,7 @@ def download():
     else:
         return jsonify({
             "error": "Download failed",
-            "message": audio_info  # Error message
+            "message": audio_info
         }), 500
 
 @app.route('/audio/<filename>', methods=['GET'])

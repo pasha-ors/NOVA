@@ -1,0 +1,123 @@
+/* Page.css */
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgb(255, 255, 255, 1);
+}
+
+.description {
+    font-size: 1.5rem;
+    color: rgb(255, 255, 255, 0.6);
+    margin: 2rem;
+}
+
+.bar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: #1c1c1c;
+    min-width: 690px;
+    gap: 10px;
+
+    outline: none;
+    transition: border-color 0.3s ease;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px);
+    border: 1px solid rgba(255, 255, 255, 0.39);
+    margin: 0; /* убираем margin-bottom */
+}
+
+.buttons-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bar-button {
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    transition: background-color 1s;
+    cursor: pointer;
+
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px);
+    border: 1px solid rgba(255, 255, 255, 0.39);
+}
+
+.bar-button:hover {
+    background-color: #444;
+}
+.input {
+    color: white;
+    font-size: 20px;
+    flex: 1;
+    min-width: 500px;
+    min-height: 50px;
+    padding: 20px 10px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    margin: 20px;
+}
+
+.button {
+    font-size: 19px;
+    color: white;
+    font-weight: bold;
+    transition: background-color 1s;
+    cursor: pointer;
+
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px);
+    border: 1px solid rgba(255, 255, 255, 0.39);
+}
+
+.button:hover {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px);
+    border: 1px solid rgba(255, 255, 255, 0.39);
+}
+
+.message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    margin: 40px;
+    font-weight: bold;
+    color: rgb(255, 255, 255, 0.8);
+}
+
+.download{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

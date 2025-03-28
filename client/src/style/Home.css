@@ -1,0 +1,64 @@
+/* Home Page Styles */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    color: white;
+    text-align: center;
+}
+
+.big-title {
+
+    margin-top: 200px;
+    font-size: 360px;
+    font-weight: bold;
+    letter-spacing: -5px;
+    color: transparent;
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 10px black, 0 0 10px rgb(255, 255, 255, 0.7);
+    cursor: default;
+    transition: 1s ease-in-out;
+}
+
+.big-title:hover {
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 1);
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.content p {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: 1px solid white;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: white;
+    color: black;
+}
+
+.btn.try {
+    background-color: white;
+    color: black;
+}
+
+.btn.try:hover {
+    background-color: transparent;
+    color: white;
+}

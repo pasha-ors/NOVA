@@ -10,3 +10,11 @@ services:
       - ./services/music_downloader/downloads:/app/downloads
     environment:
       - PYTHONUNBUFFERED=1
+
+  client:
+    build:
+      context: ./client
+    ports:
+      - "3000:80"
+    depends_on:
+      - music_downloader
