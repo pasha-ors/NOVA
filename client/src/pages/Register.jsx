@@ -1,20 +1,32 @@
 import React, {useState} from 'react';
 import '../style/Register.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
-const Register = () => {
+const Register = ({onLogin}) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState(null);
+    const navigate = useNavigate();
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/register', { username, email, password });
+            onLogin(response.data);
+            navigate('/');
+        } catch (error) {
+            setMessage(error.response.data.error);
+        }
+    }
 
     return (
         <div className="register-container">
             <div className="register-box">
                 <h1>Create an Account</h1>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input
                         type="text"
                         placeholder="Username"

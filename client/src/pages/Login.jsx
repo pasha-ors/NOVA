@@ -1,19 +1,32 @@
 import React, {useState} from 'react';
 import '../style/Login.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
-const Login = () => {
+const Login = ({onLogin}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState(null);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+            onLogin(response.data);
+            navigate('/');
+        } catch (error) {
+            setMessage(error.response.data.error);
+        }
+    }
 
     return (
         <div className="login-container">
             <div className="login-box">
                 <h1>Welcome Back</h1>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input
                         type="email"
                         placeholder="Email address"

@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -15,33 +15,48 @@ import "./style/App.css";
 
 function App() {
 
-    const [isLogin, setIsLogin] = React.useState(true);
+    const [isLogin, setIsLogin] = React.useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            setIsLogin(true);
+        }
+    }, []);
+
+    const handleLogin = (token) => {
+        localStorage.setItem("accessToken", token.accessToken);
+        localStorage.setItem("refreshToken", token.refreshToken);
+        setIsLogin(true);
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        setIsLogin(false);
+    }
 
     return (
         <BrowserRouter>
             <div className="app-container">
-                {
-                    isLogin ?
-                            <>
-                                <Navbar/>
-                                <Routes>
-                                    <Route path="/" element={<Home />} />
-                                    <Route path="/about" element={<About />} />
-                                    <Route path="/main" element={<Main />} />
-                                    <Route path="/profile" element={<Profile />} />
-                                    <Route path="/*" element={<NotFound />} />
-                                </Routes>
-                            </>
-                        :
-                            <>
-                                <Navbar2/>
-                                <Routes>
-                                    <Route path="/login" element={<Login />} />
-                                    <Route path="/register" element={<Register />} />
-                                    <Route path="/*" element={<NotFound />} />
-                                </Routes>
-                            </>
-                }
+                {isLogin ? <Navbar onLogout={handleLogout}/> : <Navbar2/>}
+                <Routes>
+                    <Route path="/" element={<Home isLogin={isLogin} />} />
+                    <Route path="/about" element={<About />} />
+                        {
+                        isLogin ? (
+                                    <>
+                                        <Route path="/main" element={<Main />} />
+                                        <Route path="/profile" element={<Profile />} />
+                                    </>
+                            ) : (
+                                    <>
+                                        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+                                        <Route path="/register" element={<Register onLogin={handleLogin} />} />
+                                    </>
+                        )}
+                    <Route path="/*" element={<NotFound />} />
+                </Routes>
             </div>
         </BrowserRouter>
     );

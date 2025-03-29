@@ -19,6 +19,7 @@
     justify-content: center;
     text-align: center;
     padding: 30px;
+    cursor: pointer;
 }
 
 .navbar-links {
