@@ -36,6 +36,31 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/register', async (req, res) => {
+    try{
+        const {username, email, password} = req.body;
+
+        const users = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+
+        if(users.rows.length > 0) {
+            return res.status(401).json({error: 'User are already registered'});
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await pool.query(
+            "INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
+            [username, email, hashedPassword]
+        );
+
+        const tokens = jwtTokens(newUser.rows[0]);
+        res.cookie('refresh_token', tokens.refreshToken, {httpOnly: true});
+        res.json(tokens);
+    }catch(err){
+        res.status(401).json({error: err.message});
+    }
+})
+
 router.get('/refresh_token', (req, res) => {
     try{
         const refresh_token = req.cookies.refreshToken;
@@ -64,6 +89,5 @@ router.delete('/refresh_token', (req, res) => {
         res.status(401).json({error: err.message});
     }
 });
-
 
 export default router;
