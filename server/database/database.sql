@@ -11,7 +11,6 @@ CREATE TABLE users(
 
 SELECT * FROM users;
 
-INSERT INTO users (user_name, user_email, user_password) VALUE ('Pasha', 'pavlo.orsahosh99@gmail.com', 'ads12345qwe');
 
 --psql -U postgres
 --\c nova

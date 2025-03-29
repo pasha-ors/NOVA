@@ -1,6 +1,20 @@
 version: '3.9'
 
 services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1423
+      POSTGRES_DB: nova
+    volumes:
+      - ./postgres-init:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+
+
   music_downloader:
     build:
       context: ./services/music_downloader
@@ -19,11 +33,19 @@ services:
     depends_on:
       - music_downloader
       - server
+    environment:
+      - REACT_APP_API_URL=http://server:5000
 
   server:
     build:
       context: ./server
     ports:
       - "5000:5000"
+    depends_on:
+      - postgres
     environment:
       - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:1423@postgres:5432/nova
+
+volumes:
+  postgres_data:
