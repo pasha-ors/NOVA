@@ -18,7 +18,7 @@ const Navbar = ({onLogout}) => {
                     </li>
                     <li><NavLink to="/about" className={({isActive}) => isActive ? "active" : ""}>About</NavLink></li>
                     <li>
-                        <button onClick={handleLogout} className="logout-button">Exit</button>
+                        <NavLink onClick={handleLogout} to="/login">Exit</NavLink>
                     </li>
                 </ul>
             </nav>

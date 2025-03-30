@@ -11,6 +11,34 @@ const Main = () => {
     const [downloadedTracks, setDownloadedTracks] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleDownload = async () => {
+        if (!inputValue) {
+            setMessage("Please enter a URL.");
+            return;
+        }
+
+        setIsLoading(true);
+        setMessage("");
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/music/download', {
+                url: inputValue
+            });
+
+            const track = response.data.data;
+
+            setDownloadedTracks((prev) => [...prev, track]);
+            setMessage(`Downloaded: ${track.title}`);
+            setInputValue("");
+        } catch (error) {
+            console.error(error);
+            setMessage("Failed to download audio.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
     return (
         <div className="container">
             {message && <p className="message">{message}</p>}
@@ -30,7 +58,7 @@ const Main = () => {
                     <button className="button" onClick={() => setIsModalOpen(true)}>
                         Options
                     </button>
-                    <button className="button" disabled={isLoading}>
+                    <button className="button" disabled={isLoading} onClick={handleDownload}>
                         {isLoading ? "Downloading..." : "Download"}
                     </button>
                 </div>

@@ -31,9 +31,7 @@ def download_audio(url):
 
             audio_info = {
                 "title": info.get("title", "Unknown"),
-                "uploader": info.get("uploader", "Unknown"),
-                "duration": info.get("duration", 0),
-                "file_name": file_name,
+                "artist": info.get("uploader", "Unknown"),
                 "file_path": file_path
             }
 
