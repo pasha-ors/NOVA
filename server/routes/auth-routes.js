@@ -8,31 +8,46 @@ import err from "jsonwebtoken/lib/JsonWebTokenError.js";
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-    try{
-        const {email, password} = req.body;
+    try {
+        const { email, password } = req.body;
+        console.log(`[LOGIN] Запит на логін: ${email}`);
+
+        if (!email || !password) {
+            console.warn('[LOGIN] Відсутні email або пароль');
+            return res.status(400).json({ error: 'Email and password are required' });
+        }
 
         const users = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
-        if(users.rows.length === 0) {
-            return res.status(404).json({error: 'Email is incorrect'});
+        if (users.rows.length === 0) {
+            console.warn(`[LOGIN] Email не знайдено: ${email}`);
+            return res.status(404).json({ error: 'Email is incorrect' });
         }
 
-        //password check
-
-        const validPassword = await bcrypt.compare(password, users.rows[0].user_password);
-
-        if(!validPassword) {
-            return res.status(401).json({error: 'Password is incorrect'});
+        const user = users.rows[0];
+        console.log(user);
+        const validPassword = await bcrypt.compare(password, user.user_password);
+        if (!validPassword) {
+            console.warn(`[LOGIN] Невірний пароль для: ${email}`);
+            return res.status(401).json({ error: 'Password is incorrect' });
         }
 
-        //JWT
+        console.log('[LOGIN] Авторизація успішна, генеруємо токени...');
+        let tokens = jwtTokens(user);
+        console.log("REFRESH TOKEN:", tokens.refreshToken);
+        res.cookie('refresh_token', tokens.refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 5 * 60 * 1000 // 5 хвилин
+        });
 
-        let tokens = jwtTokens(users.rows[0]);
-        res.cookie('refresh_token', tokens.refreshToken, {httpOnly: true});
-        res.json(tokens);
+        console.log('[LOGIN] Токени відправлені, логін завершено');
+        res.json({ accessToken: tokens.accessToken });
 
-    }catch(err){
-        res.status(401).json({error: err.message});
+    } catch (err) {
+        console.error('[LOGIN] Помилка при логіні:', err);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
@@ -54,8 +69,10 @@ router.post('/register', async (req, res) => {
         );
 
         const tokens = jwtTokens(newUser.rows[0]);
-        res.cookie('refresh_token', tokens.refreshToken, {httpOnly: true});
-        res.json(tokens);
+        res.cookie('refresh_token', tokens.refreshToken, {
+            httpOnly: true
+        });
+        res.json({accessToken: tokens.accessToken});
     }catch(err){
         res.status(401).json({error: err.message});
     }
@@ -63,7 +80,8 @@ router.post('/register', async (req, res) => {
 
 router.get('/refresh_token', (req, res) => {
     try{
-        const refresh_token = req.cookies.refreshToken;
+        const refresh_token = req.cookies.refresh_token;
+        console.log(refresh_token);
         if(refresh_token === null){
             return res.status(401).json({error: 'Refresh token is null'});
         }
@@ -73,9 +91,8 @@ router.get('/refresh_token', (req, res) => {
             }
             let tokens  = jwtTokens(user);
             res.cookie('refresh_token', tokens.refreshToken, {httpOnly: true});
-            res.json(tokens);
+            res.json({ accessToken: tokens.accessToken });
         })
-        console.log(refresh_token);
     }catch(err){
         res.status(401).json({error: err.message});
     }

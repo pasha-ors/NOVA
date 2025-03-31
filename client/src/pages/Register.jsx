@@ -1,26 +1,33 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import '../style/Register.css';
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../axiosInstance';
+import useAuth from '../auth/useAuth';
 
-
-const Register = ({onLogin}) => {
+const Register = () => {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
+    const [email, setEmail]       = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState(null);
-    const navigate = useNavigate();
+    const [message, setMessage]   = useState(null);
+    const navigate              = useNavigate();
+    const { login }             = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/register', { username, email, password });
-            onLogin(response.data);
+            // Використовуємо відносний URL, бо baseURL встановлено в axiosInstance
+            const response = await axiosInstance.post('/auth/register', { username, email, password });
+            // Припускаємо, що сервер повертає { accessToken: '...' }
+            login(response.data.accessToken);
             navigate('/');
         } catch (error) {
-            setMessage(error.response.data.error);
+            if (error.response && error.response.data && error.response.data.error) {
+                setMessage(error.response.data.error);
+            } else {
+                setMessage('Unexpected error occurred.');
+            }
         }
-    }
+    };
 
     return (
         <div className="register-container">
@@ -48,9 +55,11 @@ const Register = ({onLogin}) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button className="register-button" type="submit">Sign up</button>
+                    <button className="register-button" type="submit">
+                        Sign up
+                    </button>
                 </form>
-                <div>{message}</div>
+                {message && <div className="error-message">{message}</div>}
             </div>
         </div>
     );

@@ -4,12 +4,16 @@ import yt_dlp
 FFMPEG_PATH = "/usr/bin/ffmpeg"
 OUTPUT_FOLDER = "downloads"
 
-def download_audio(url):
+def is_url(string):
+    return string.startswith("http://") or string.startswith("https://")
+
+def download_audio(query_or_url):
 
     if not os.path.exists(OUTPUT_FOLDER):
         os.makedirs(OUTPUT_FOLDER)
 
     try:
+        search_query = query_or_url if is_url(query_or_url) else f"ytsearch1:{query_or_url}"
 
         ydl_opts = {
             'format': 'bestaudio/best',
@@ -24,7 +28,11 @@ def download_audio(url):
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(url, download=True)
+            info = ydl.extract_info(search_query, download=True)
+
+            # Если это поиск, то info содержит ключ 'entries'
+            if 'entries' in info:
+                info = info['entries'][0]
 
             file_name = f"{info['title']}.mp3"
             file_path = os.path.join(OUTPUT_FOLDER, file_name)
